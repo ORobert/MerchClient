@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.example.orobe.merch.ShopFragment" android:id="@+id/list_view_layout">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ListView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" android:layout_marginTop="67dp"
+            android:layout_alignParentEnd="true" android:id="@+id/products_list"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            android:layout_marginTop="15dp"
+            android:id="@+id/search_field"
+            android:layout_alignParentTop="true" android:layout_alignParentStart="true"
+            android:layout_marginStart="14dp"/>
+    <Button
+            android:text="Order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/order_button"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true" android:layout_alignBottom="@+id/search_field"
+            android:layout_alignTop="@+id/search_field" style="@style/Widget.AppCompat.Button.Colored"/>
+</RelativeLayout>

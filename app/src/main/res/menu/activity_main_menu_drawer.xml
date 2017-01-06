@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_stock"
+            android:icon="@drawable/ic_content_paste_black_24dp"
+            android:title="Stock" />
+        <item
+            android:id="@+id/nav_shop"
+            android:icon="@drawable/ic_attach_money_black_24dp"
+            android:title="Shop" />
+        <item
+            android:id="@+id/nav_track"
+            android:icon="@drawable/ic_directions_bus_black_24dp"
+            android:title="Tracking" />
+    </group>
+</menu>
