@@ -28,10 +28,6 @@ public class Client extends AsyncTask<Void,Void,Void> {
     protected Client(String host, int port) throws IOException {
         this.host=host;
         this.port=port;
-        server = new Socket(host,port);
-        this.send = new ObjectOutputStream(server.getOutputStream());
-        this.recive = new ObjectInputStream(server.getInputStream());
-        this.responses=new LinkedBlockingQueue<Response>();
     }
 
 
@@ -42,6 +38,7 @@ public class Client extends AsyncTask<Void,Void,Void> {
             response=responses.take();
             if (response instanceof GetAllResponse){
                 System.out.print("Merge");
+                System.out.println(((GetAllResponse) response).x);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -49,7 +46,7 @@ public class Client extends AsyncTask<Void,Void,Void> {
     }
 
 
-    protected void sendRequest(Request request){
+    protected void sendRequest(Object request){
         try {
             send.writeObject(request);
             send.flush();
@@ -70,7 +67,24 @@ public class Client extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void... arg0) {
-        sendRequest(new GetAllRequest());
+        System.out.println("oooooo");
+
+        try {
+            System.out.println("before socket");
+            server = new Socket(host,port);
+            System.out.println("after socket");
+            this.recive = new ObjectInputStream(server.getInputStream());
+            System.out.println("after out stream");
+            this.send = new ObjectOutputStream(server.getOutputStream());
+            System.out.println("after in stream");
+            this.responses=new LinkedBlockingQueue<Response>();
+            System.out.println("before request");
+            sendRequest(new GetAllRequest());
+            //sendRequest("ceva freureg4495y");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         while (true){
             try {
                 Object response = recive.readObject();
@@ -83,6 +97,7 @@ public class Client extends AsyncTask<Void,Void,Void> {
             }catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        return null;
         }
     }
 }

@@ -33,12 +33,12 @@ public class MainMenuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         try {
-            Client client = new Client("127.0.0.1",55555);
-            client.execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Client client = new Client("172.25.14.33",55555);
+        client.execute();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
 
     @Override
     public void onBackPressed() {
