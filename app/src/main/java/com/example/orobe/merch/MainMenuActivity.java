@@ -1,5 +1,6 @@
 package com.example.orobe.merch;
 
+import Models.Products;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,9 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.IOException;
+import java.util.List;
 
-public class MainMenuActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private List<Products> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,17 @@ public class MainMenuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         try {
-        Client client = new Client("172.25.14.33",55555);
-        client.execute();
-    } catch (IOException e) {
-        e.printStackTrace();
+            Client client = new Client("172.30.113.138",55555,this);
+            client.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
-}
+
+    public void handleGetAllRequest(List<Products> list){
+        this.list=list;
+    }
 
     @Override
     public void onBackPressed() {
@@ -81,7 +88,7 @@ public class MainMenuActivity extends AppCompatActivity
         if (id == R.id.nav_stock) {
 
         } else if (id == R.id.nav_shop) {
-            ShopFragment shopFragment = new ShopFragment();
+            ShopFragment shopFragment = new ShopFragment(list);
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main_menu,shopFragment,shopFragment.getTag()).commit();
 

@@ -1,15 +1,18 @@
 package com.example.orobe.merch;
 
+import Models.Products;
 import Protocol.GetAllRequest;
 import Protocol.GetAllResponse;
 import Protocol.Request;
 import Protocol.Response;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -24,10 +27,12 @@ public class Client extends AsyncTask<Void,Void,Void> {
     protected ObjectOutputStream send;
     protected ObjectInputStream recive;
     protected BlockingQueue<Response> responses;
+    protected MainMenuActivity main;
 
-    protected Client(String host, int port) throws IOException {
+    protected Client(String host, int port, MainMenuActivity main) throws IOException {
         this.host=host;
         this.port=port;
+        this.main=main;
     }
 
 
@@ -37,8 +42,8 @@ public class Client extends AsyncTask<Void,Void,Void> {
         try {
             response=responses.take();
             if (response instanceof GetAllResponse){
-                System.out.print("Merge");
-                System.out.println(((GetAllResponse) response).x);
+                List<Products> productsList = ((GetAllResponse) response).getProductsList();
+                main.handleGetAllRequest(productsList);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
