@@ -1,19 +1,16 @@
 package com.example.orobe.merch;
 
-import Models.Products;
+import Models.Product;
 import Protocol.GetAllRequest;
 import Protocol.GetAllResponse;
-import Protocol.Request;
 import Protocol.Response;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -35,14 +32,12 @@ public class Client extends AsyncTask<Void,Void,Void> {
         this.main=main;
     }
 
-
-
     protected void readResponse(){
         Response response = null;
         try {
             response=responses.take();
             if (response instanceof GetAllResponse){
-                List<Products> productsList = ((GetAllResponse) response).getProductsList();
+                List<Product> productsList = ((GetAllResponse) response).getProductsList();
                 main.handleGetAllRequest(productsList);
             }
         } catch (InterruptedException e) {
@@ -75,17 +70,11 @@ public class Client extends AsyncTask<Void,Void,Void> {
         System.out.println("oooooo");
 
         try {
-            System.out.println("before socket");
             server = new Socket(host,port);
-            System.out.println("after socket");
             this.recive = new ObjectInputStream(server.getInputStream());
-            System.out.println("after out stream");
             this.send = new ObjectOutputStream(server.getOutputStream());
-            System.out.println("after in stream");
-            this.responses=new LinkedBlockingQueue<Response>();
-            System.out.println("before request");
+            this.responses=new LinkedBlockingQueue<>();
             sendRequest(new GetAllRequest());
-            //sendRequest("ceva freureg4495y");
         } catch (IOException e) {
             e.printStackTrace();
         }

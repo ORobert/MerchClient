@@ -1,27 +1,24 @@
 package com.example.orobe.merch;
 
-import Models.Products;
+import Models.Product;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ShopFragment extends Fragment {
-    private List<Products> prods;
+    private List<Product> prods;
     //    IRepository repository;
 
     public ShopFragment(){}
 
-    public ShopFragment(List<Products> list) {
+    public ShopFragment(List<Product> list) {
 //      repository = new ShopRepository();
         prods=list;
     }

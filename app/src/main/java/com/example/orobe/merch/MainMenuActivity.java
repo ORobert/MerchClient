@@ -1,6 +1,6 @@
 package com.example.orobe.merch;
 
-import Models.Products;
+import Models.Product;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private List<Products> list;
+    private List<Product> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
     }
 
-    public void handleGetAllRequest(List<Products> list){
+    public void handleGetAllRequest(List<Product> list){
         this.list=list;
     }
 
