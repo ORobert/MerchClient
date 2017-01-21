@@ -16,6 +16,7 @@ import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private List<Product> list;
+    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +35,8 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        try {
-            Client client = new Client("172.30.113.138",55555,this);
-            client.execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        client = (Client) getIntent().getSerializableExtra("CLIENT");
+        client.setActivity(this);
     }
 
     public void handleGetAllRequest(List<Product> list){

@@ -1,11 +1,12 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Sergiu on 19-Jan-17.
  */
-public class Order {
+public class Order implements Serializable{
 	private int id;
 	private OrderState state;
 	private User owner;
