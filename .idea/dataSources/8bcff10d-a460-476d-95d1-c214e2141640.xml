@@ -6,50 +6,152 @@
       <Current>1</Current>
     </schema>
     <schema id="3" parent="1" name="information_schema"/>
-    <schema id="4" parent="1" name="merch">
-      <Visible>1</Visible>
-    </schema>
+    <schema id="4" parent="1" name="merch"/>
     <schema id="5" parent="1" name="mysql"/>
     <schema id="6" parent="1" name="performance_schema"/>
     <schema id="7" parent="1" name="sys"/>
     <schema id="8" parent="1" name="test"/>
     <schema id="9" parent="1" name="tpjad"/>
-    <table id="10" parent="4" name="shop_products"/>
-    <table id="11" parent="4" name="stock_products"/>
-    <column id="12" parent="10" name="id">
+    <schema id="10" parent="1" name="merchdb">
+      <Visible>1</Visible>
+    </schema>
+    <table id="11" parent="10" name="orders"/>
+    <table id="12" parent="10" name="ordersproducts"/>
+    <table id="13" parent="10" name="products"/>
+    <table id="14" parent="10" name="users"/>
+    <column id="15" parent="11" name="Id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="13" parent="10" name="name">
+    <column id="16" parent="11" name="OwnerId">
       <Position>2</Position>
-      <DataType>varchar(45)|0</DataType>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="14" parent="10" name="price">
+    <column id="17" parent="11" name="Date">
       <Position>3</Position>
-      <DataType>decimal(10)|0</DataType>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <key id="15" parent="10" name="PRIMARY">
-      <ColNames>id</ColNames>
+    <column id="18" parent="11" name="State">
+      <Position>4</Position>
+      <DataType>enum(&apos;Confirmed&apos;, &apos;ToBeDelivered&apos;, &apos;Delivered&apos;)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="19" parent="11" name="Latitude">
+      <Position>5</Position>
+      <DataType>decimal(10,6)|0</DataType>
+    </column>
+    <column id="20" parent="11" name="Longitude">
+      <Position>6</Position>
+      <DataType>decimal(10,6)|0</DataType>
+    </column>
+    <column id="21" parent="11" name="DriverId">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="22" parent="11" name="index2">
+      <ColNames>OwnerId</ColNames>
+    </index>
+    <key id="23" parent="11" name="PRIMARY">
+      <ColNames>Id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="16" parent="11" name="id">
+    <column id="24" parent="12" name="OrderId">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="12" name="ProductId">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="12" name="Quantity">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="27" parent="12" name="fk_Order_idx">
+      <ColNames>OrderId</ColNames>
+    </index>
+    <key id="28" parent="12" name="PRIMARY">
+      <ColNames>ProductId
+OrderId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="29" parent="12" name="fk_Order">
+      <ColNames>OrderId</ColNames>
+      <RefSchemaName>merchdb</RefSchemaName>
+      <RefTableName>orders</RefTableName>
+      <RefColNames>Id</RefColNames>
+      <OnUpdate>no-action</OnUpdate>
+      <OnDelete>no-action</OnDelete>
+    </foreign-key>
+    <foreign-key id="30" parent="12" name="fk_Product">
+      <ColNames>ProductId</ColNames>
+      <RefSchemaName>merchdb</RefSchemaName>
+      <RefTableName>products</RefTableName>
+      <RefColNames>Id</RefColNames>
+      <OnUpdate>no-action</OnUpdate>
+      <OnDelete>no-action</OnDelete>
+    </foreign-key>
+    <column id="31" parent="13" name="Id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="17" parent="11" name="name">
+    <column id="32" parent="13" name="Name">
       <Position>2</Position>
       <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="18" parent="11" name="quantity">
+    <column id="33" parent="13" name="Quantity">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <key id="19" parent="11" name="PRIMARY">
-      <ColNames>id</ColNames>
+    <column id="34" parent="13" name="Price">
+      <Position>4</Position>
+      <DataType>decimal(8,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="35" parent="13" name="Name_UNIQUE">
+      <ColNames>Name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="36" parent="13" name="PRIMARY">
+      <ColNames>Id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="37" parent="13" name="Name_UNIQUE">
+      <ColNames>Name</ColNames>
+      <UnderlyingIndexName>Name_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="38" parent="14" name="Id">
+      <Position>1</Position>
+      <DataType>int(10)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="39" parent="14" name="Username">
+      <Position>2</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="40" parent="14" name="Password">
+      <Position>3</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="41" parent="14" name="UserType">
+      <Position>4</Position>
+      <DataType>enum(&apos;Normal&apos;, &apos;Driver&apos;)|0</DataType>
+    </column>
+    <key id="42" parent="14" name="PRIMARY">
+      <ColNames>Id</ColNames>
       <Primary>1</Primary>
     </key>
   </database-model>
