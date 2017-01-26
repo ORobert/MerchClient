@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Order implements Serializable{
 	private int id;
-	private OrderState state;
+	private String state;
 	private User owner;
 	private double latitude;
 	private double longitude;
@@ -16,7 +16,7 @@ public class Order implements Serializable{
 	private User driver;
 
 	public Order(){
-		state=OrderState.Confirmed;
+		state="Confirmed";
 	}
 
 	public int getId() {
@@ -35,11 +35,11 @@ public class Order implements Serializable{
 		this.products = products;
 	}
 
-	public OrderState getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(OrderState state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 

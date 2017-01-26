@@ -12,15 +12,15 @@ public class User implements Serializable{
 	private String password;
 	private UserType userType;
 
-	private List<Order> orders;
+	//private List<Order> orders;
 
-	public List<Order> getOrders() {
+	/*public List<Order> getOrders() {
 		return orders;
 	}
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
-	}
+	}*/
 
 	public int getId() {
 		return id;

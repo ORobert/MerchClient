@@ -35,8 +35,8 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        client = (Client) getIntent().getSerializableExtra("CLIENT");
-        client.setActivity(this);
+        //client = (Client) getIntent().getSerializableExtra("CLIENT");
+        //client.setActivity(this);
     }
 
     public void handleGetAllRequest(List<Product> list){
