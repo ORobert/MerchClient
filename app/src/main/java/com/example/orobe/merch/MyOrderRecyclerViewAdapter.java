@@ -5,16 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.example.orobe.merch.DOrderFragment.OnListFragmentInteractionListener;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MyOrderRecyclerViewAdapter extends RecyclerView.Adapter<MyOrderRecyclerViewAdapter.ViewHolder> {
 
 	private final List<Order> mValues;
 	private final DOrderFragment.OnListFragmentInteractionListener mListener;
+	private final SimpleDateFormat sdt=new SimpleDateFormat("dd.MM.yyyy");
 
 	public MyOrderRecyclerViewAdapter(List<Order> items, DOrderFragment.OnListFragmentInteractionListener listener) {
 		mValues = items;
@@ -23,23 +25,33 @@ public class MyOrderRecyclerViewAdapter extends RecyclerView.Adapter<MyOrderRecy
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.driver_order_list, parent, false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_driverorder, parent, false);
 		return new ViewHolder(view);
 	}
 
 	@Override
 	public void onBindViewHolder(final ViewHolder holder, int position) {
 		holder.mItem = mValues.get(position);
-		holder.mIdView.setText(mValues.get(position).getId());
-		holder.mContentView.setText(mValues.get(position).getLatitude()+"");
+		holder.mId.setText("Id: "+mValues.get(position).getId());
+		holder.mDate.setText(sdt.format(mValues.get(position).getDate()));
+		holder.mProdNum.setText("Numar de produse: "+mValues.get(position).getProdCount());
+		holder.mUsername.setText(mValues.get(position).getUsername());
+		holder.mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+				if (isChecked){
+					holder.mDate.setText("merge!");
+				}
+			}
 
-		holder.mView.setOnClickListener(new View.OnClickListener() {
+		});
+		/*holder.mView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (null != mListener)
 					mListener.onListFragmentInteraction(holder.mItem);
 			}
-		});
+		});*/
 	}
 
 	@Override
@@ -49,20 +61,21 @@ public class MyOrderRecyclerViewAdapter extends RecyclerView.Adapter<MyOrderRecy
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public final View mView;
-		public final TextView mIdView;
-		public final TextView mContentView;
+		public final TextView mId;
+		public final TextView mUsername;
+		public final TextView mProdNum;
+		public final TextView mDate;
+		public final CheckBox mCheck;
 		public Order mItem;
 
 		public ViewHolder(View view) {
 			super(view);
 			mView = view;
-			mIdView = (TextView) view.findViewById(R.id.id);
-			mContentView = (TextView) view.findViewById(R.id.content);
-		}
-
-		@Override
-		public String toString() {
-			return super.toString() + " '" + mContentView.getText() + "'";
+			mId = (TextView) view.findViewById(R.id.id);
+			mUsername=(TextView) view.findViewById(R.id.content);
+			mProdNum=(TextView) view.findViewById(R.id.prodNo);
+			mDate=(TextView) view.findViewById(R.id.date);
+			mCheck=(CheckBox) view.findViewById(R.id.check);
 		}
 	}
 }

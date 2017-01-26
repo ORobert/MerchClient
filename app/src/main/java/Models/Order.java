@@ -1,6 +1,7 @@
 package Models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,11 +10,30 @@ import java.util.List;
 public class Order implements Serializable{
 	private int id;
 	private String state;
-	private User owner;
-	private double latitude;
-	private double longitude;
-	private List<Product> products;
-	private User driver;
+	//private User owner;
+	private String username;
+	private Double latitude;
+	private Double longitude;
+	private Date date;
+	private int prodCount;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public int getProdCount() {
+		return prodCount;
+	}
+
+	public void setProdCount(int prodCount) {
+		this.prodCount = prodCount;
+	}
+	//private List<Product> products;
+	//private User driver;
 
 	public Order(){
 		state="Confirmed";
@@ -27,12 +47,20 @@ public class Order implements Serializable{
 		this.id = id;
 	}
 
-	public List<Product> getProducts() {
+	/*public List<Product> getProducts() {
 		return products;
 	}
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}*/
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public String getState() {
@@ -59,7 +87,7 @@ public class Order implements Serializable{
 		this.longitude = longitude;
 	}
 
-	public User getOwner() {
+	/*public User getOwner() {
 		return owner;
 	}
 
@@ -73,5 +101,5 @@ public class Order implements Serializable{
 
 	public void setDriver(User driver) {
 		this.driver = driver;
-	}
+	}*/
 }

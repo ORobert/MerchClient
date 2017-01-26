@@ -45,9 +45,10 @@ public class DOrderFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.driver_order_list, container, false);
-		if (view instanceof RecyclerView) {
+		//if (view instanceof RecyclerView) {
 			Context context = view.getContext();
-			RecyclerView recyclerView = (RecyclerView) view;
+			//RecyclerView recyclerView = (RecyclerView) view;
+			RecyclerView recyclerView=(RecyclerView)view.findViewById(R.id.list);
 			if (mColumnCount <= 1) {
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			} else {
@@ -58,7 +59,7 @@ public class DOrderFragment extends Fragment{
 			}catch(ProtocolException e){
 
 			}
-		}
+		//}
 		return view;
 	}
 
