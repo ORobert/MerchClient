@@ -1,7 +1,6 @@
 package com.example.orobe.merch;
 
 import Models.Order;
-import Models.Product;
 import Models.User;
 import Protocol.*;
 import android.os.AsyncTask;
@@ -33,15 +32,64 @@ public class Client{
 		(new ConnectionCreator()).executeOnExecutor(exec);
     }
 
-    public static List<Order> getAllConfirmedOrders()throws ProtocolException{
-		GetAllConfirmedOrdersRequest orderRequest = new GetAllConfirmedOrdersRequest();
+	public static List<Order> getOrdersByDriver(User driver)throws ProtocolException{
+		GetOrdersByDriverRequest orderRequest = new GetOrdersByDriverRequest(driver);
 		sendRequest(orderRequest);
 		try {
 			Response resp = responses.take();
-			if(resp instanceof GetAllConfirmedOrdersResponse)
-				return ((GetAllConfirmedOrdersResponse) resp).getOrders();
+			if(resp instanceof GetOrdersResponse)
+				return ((GetOrdersResponse) resp).getOrders();
 			else
 				throw new ProtocolException("Invalid response received from the server!");
+		}catch(InterruptedException e){
+			e.printStackTrace();
+			throw new ProtocolException("IntreruptedExcetion!");
+		}
+	}
+
+    public static List<Order> getConfirmedOrders()throws ProtocolException{
+		GetConfirmedOrdersRequest orderRequest = new GetConfirmedOrdersRequest();
+		sendRequest(orderRequest);
+		try {
+			Response resp = responses.take();
+			if(resp instanceof GetOrdersResponse)
+				return ((GetOrdersResponse) resp).getOrders();
+			else
+				throw new ProtocolException("Invalid response received from the server!");
+		}catch(InterruptedException e){
+			e.printStackTrace();
+			throw new ProtocolException("IntreruptedExcetion!");
+		}
+	}
+
+	public static void takeOrders(List<Order> orders)throws ProtocolException{
+		TakeOrdersRequest takeRequest = new TakeOrdersRequest(orders);
+		sendRequest(takeRequest);
+		try {
+			Response resp = responses.take();
+			if(resp instanceof ErrorResponse)
+				throw new ProtocolException("Error while taking orders!");
+		}catch(InterruptedException e){
+			e.printStackTrace();
+			throw new ProtocolException("IntreruptedExcetion!");
+		}
+	}
+
+	public static void updateOrderLocation(List<Order> orders,double longitude, double latitude){
+		UpdateLocationRequest updateRequest = new UpdateLocationRequest();
+		updateRequest.setLatitude(latitude);
+		updateRequest.setLongitude(longitude);
+		updateRequest.setOrders(orders);
+		sendRequest(updateRequest);
+	}
+
+	public static void deliverOrder(Order order)throws ProtocolException{
+		DeliverOrderRequest takeRequest = new DeliverOrderRequest(order);
+		sendRequest(takeRequest);
+		try {
+			Response resp = responses.take();
+			if(resp instanceof ErrorResponse)
+				throw new ProtocolException("Error while taking orders!");
 		}catch(InterruptedException e){
 			e.printStackTrace();
 			throw new ProtocolException("IntreruptedExcetion!");

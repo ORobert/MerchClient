@@ -16,6 +16,15 @@ public class Order implements Serializable{
 	private Double longitude;
 	private Date date;
 	private int prodCount;
+	private Integer driverId;
+
+	public int getDriverId() {
+		return driverId;
+	}
+
+	public void setDriverId(int driverId) {
+		this.driverId = driverId;
+	}
 
 	public String getUsername() {
 		return username;

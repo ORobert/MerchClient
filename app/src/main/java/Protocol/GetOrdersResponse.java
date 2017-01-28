@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * Created by Sergiu on 25-Jan-17.
  */
-public class GetAllConfirmedOrdersResponse implements Response {
+public class GetOrdersResponse implements Response {
 	private List<Order> orders;
 
-	public GetAllConfirmedOrdersResponse(List<Order> orders) {
+	public GetOrdersResponse(List<Order> orders) {
 		this.orders = orders;
 	}
 

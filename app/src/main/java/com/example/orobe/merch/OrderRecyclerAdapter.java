@@ -7,18 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import com.example.orobe.merch.DOrderFragment.OnListFragmentInteractionListener;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyOrderRecyclerViewAdapter extends RecyclerView.Adapter<MyOrderRecyclerViewAdapter.ViewHolder> {
+public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdapter.ViewHolder> {
 
 	private final List<Order> mValues;
 	private final DOrderFragment.OnListFragmentInteractionListener mListener;
 	private final SimpleDateFormat sdt=new SimpleDateFormat("dd.MM.yyyy");
 
-	public MyOrderRecyclerViewAdapter(List<Order> items, DOrderFragment.OnListFragmentInteractionListener listener) {
+	public OrderRecyclerAdapter(List<Order> items, DOrderFragment.OnListFragmentInteractionListener listener) {
+		DriverResources.selected=new ArrayList<>();
 		mValues = items;
 		mListener = listener;
 	}
@@ -30,7 +30,7 @@ public class MyOrderRecyclerViewAdapter extends RecyclerView.Adapter<MyOrderRecy
 	}
 
 	@Override
-	public void onBindViewHolder(final ViewHolder holder, int position) {
+	public void onBindViewHolder(final ViewHolder holder, final int position) {
 		holder.mItem = mValues.get(position);
 		holder.mId.setText("Id: "+mValues.get(position).getId());
 		holder.mDate.setText(sdt.format(mValues.get(position).getDate()));
@@ -40,7 +40,9 @@ public class MyOrderRecyclerViewAdapter extends RecyclerView.Adapter<MyOrderRecy
 			@Override
 			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 				if (isChecked){
-					holder.mDate.setText("merge!");
+					DriverResources.selected.add(mValues.get(position));
+				}else{
+					DriverResources.selected.remove(mValues.get(position));
 				}
 			}
 
