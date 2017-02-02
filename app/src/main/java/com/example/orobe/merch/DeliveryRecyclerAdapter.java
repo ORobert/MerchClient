@@ -46,6 +46,7 @@ public class DeliveryRecyclerAdapter extends RecyclerView.Adapter<DeliveryRecycl
 		holder.mContent.setText(mValues.get(position).getUsername());
 		holder.mDate.setText(sdt.format(mValues.get(position).getDate()));
 		holder.mProdNo.setText("Numar de produse: "+mValues.get(position).getProdCount());
+		holder.mCity.setText("Oras: "+mValues.get(position).getAddress());
 		holder.mButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -96,6 +97,7 @@ public class DeliveryRecyclerAdapter extends RecyclerView.Adapter<DeliveryRecycl
 		public final TextView mContent;
 		public final TextView mDate;
 		public final TextView mProdNo;
+		public final TextView mCity;
 		public final Button mButton;
 		public Order mItem;
 
@@ -106,6 +108,7 @@ public class DeliveryRecyclerAdapter extends RecyclerView.Adapter<DeliveryRecycl
 			mContent = (TextView) view.findViewById(R.id.content);
 			mDate = (TextView) view.findViewById(R.id.date);
 			mProdNo = (TextView) view.findViewById(R.id.prodNo);
+			mCity = (TextView) view.findViewById(R.id.city);
 			mButton = (Button) view.findViewById(R.id.button);
 		}
 	}

@@ -1,8 +1,10 @@
 package com.example.orobe.merch;
 
+import Models.Order;
 import Models.Product;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -87,9 +89,11 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
             ShopFragment shopFragment = new ShopFragment(list);
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main_menu,shopFragment,shopFragment.getTag()).commit();
-
         } else if (id == R.id.nav_track) {
-
+            /*Order order;
+            OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment(order);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main_menu,orderDetailsFragment,orderDetailsFragment.getTag()).commit();*/
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

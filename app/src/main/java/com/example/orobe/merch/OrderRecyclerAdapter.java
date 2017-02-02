@@ -2,6 +2,7 @@ package com.example.orobe.merch;
 
 import Models.Order;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
 		holder.mDate.setText(sdt.format(mValues.get(position).getDate()));
 		holder.mProdNum.setText("Numar de produse: "+mValues.get(position).getProdCount());
 		holder.mUsername.setText(mValues.get(position).getUsername());
+		holder.mCity.setText("Oras: "+mValues.get(position).getAddress());
 		holder.mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
@@ -68,6 +70,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
 		public final TextView mProdNum;
 		public final TextView mDate;
 		public final CheckBox mCheck;
+		public final TextView mCity;
 		public Order mItem;
 
 		public ViewHolder(View view) {
@@ -76,6 +79,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
 			mId = (TextView) view.findViewById(R.id.id);
 			mUsername=(TextView) view.findViewById(R.id.content);
 			mProdNum=(TextView) view.findViewById(R.id.prodNo);
+			mCity=(TextView) view.findViewById(R.id.city);
 			mDate=(TextView) view.findViewById(R.id.date);
 			mCheck=(CheckBox) view.findViewById(R.id.check);
 		}

@@ -4,45 +4,49 @@
             android:orientation="horizontal" android:columnCount="5" android:rowCount="2"
             android:padding="0dp" android:layout_margin="0dp" android:layout_height="60dp">
 
+    <RelativeLayout
+            android:layout_width="306dp" android:layout_row="0" android:layout_column="0"
+            android:layout_height="24dp"
+            android:gravity="center_vertical">
     <TextView
-            android:id="@+id/id"
-            android:layout_width="68dp" android:maxWidth="68dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceListItem" android:text="Id: 10000"
-            android:layout_row="0" android:layout_column="0" android:layout_marginLeft="@dimen/text_margin"
-            android:layout_marginRight="7dp" android:layout_marginTop="10dp"/>
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_alignParentLeft="true"
+            android:textAppearance="?attr/textAppearanceListItem" android:text="Oras: nume"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginRight="7dp" android:layout_marginTop="4dp"/>
     <View
-            android:layout_width="2dp" android:layout_column="1" android:layout_row="0"
+            android:layout_width="2dp"
+            android:layout_toEndOf="@id/city"
             android:background="@color/colorPrimary" android:elevation="1dp" android:layout_height="20dp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="5dp" android:id="@+id/emp_sp2"/>
     <TextView
             android:id="@+id/content"
-            android:layout_width="131dp" android:maxWidth="131dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_toEndOf="@id/emp_sp2"
             android:textAppearance="?attr/textAppearanceListItem" android:text="Username"
-            android:layout_row="0" android:layout_column="2" android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp" android:layout_marginTop="10dp"/>
-    <View
-            android:layout_width="2dp" android:layout_column="3" android:layout_row="0"
-            android:layout_rowSpan="2"
-            android:background="@color/colorPrimary" android:elevation="1dp" android:layout_height="50dp"
-            android:layout_marginTop="5dp"/>
-    <Button
-            android:text="Livreaza" android:layout_column="4" android:layout_row="0" android:layout_rowSpan="2"
-            android:layout_width="121dp" android:gravity="center" android:layout_gravity="center"
-            android:layout_height="40dp" android:id="@+id/button"
-            android:background="@drawable/btn_round_large" android:textColor="@android:color/white"
-            android:fontFamily="sans-serif-medium" android:textSize="14sp"
-            android:textStyle="normal|bold" android:textAlignment="center"/>
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp" android:layout_marginTop="4dp"/>
+    </RelativeLayout>
     <RelativeLayout
-            android:layout_width="269dp" android:layout_row="1" android:layout_column="0"
-            android:layout_columnSpan="3" android:layout_height="24dp"
+            android:layout_width="306dp" android:layout_row="1" android:layout_column="0"
+            android:layout_height="24dp"
             android:gravity="center_vertical">
         <TextView
-                android:text="Numar de produse: 1000"
+                android:text="Id: 9000"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/prodNo" android:layout_marginLeft="16dp"
+                android:layout_height="wrap_content" android:id="@+id/id" android:layout_marginLeft="16dp"
                 android:layout_alignParentLeft="true"
+                android:layout_marginRight="7dp" android:layout_marginTop="4dp"/>
+        <View
+                android:layout_width="2dp" android:id="@+id/emp_sp1"
+                android:background="@color/colorPrimary" android:elevation="1dp" android:layout_height="18dp"
+                android:layout_marginTop="4dp" android:layout_toEndOf="@id/id"/>
+        <TextView
+                android:text="Nr. prod.: 1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/prodNo" android:layout_marginLeft="7dp"
+                android:layout_toEndOf="@id/emp_sp1"
                 android:layout_marginRight="7dp" android:layout_marginTop="4dp"/>
         <View
                 android:layout_width="2dp" android:id="@+id/emp_sp"
@@ -55,4 +59,17 @@
                 android:id="@+id/date" android:layout_alignParentTop="true" android:layout_toEndOf="@+id/emp_sp"
                 android:paddingLeft="7dp"/>
     </RelativeLayout>
+    <View
+            android:layout_width="2dp" android:layout_column="3" android:layout_row="0"
+            android:layout_rowSpan="2"
+            android:background="@color/colorPrimary" android:elevation="1dp" android:layout_height="50dp"
+            android:layout_marginTop="5dp"/>
+    <Button
+            android:text="Livreaza" android:layout_column="4" android:layout_row="0" android:layout_rowSpan="2"
+            android:layout_width="90dp" android:gravity="center_vertical" android:layout_gravity="center"
+            android:layout_height="40dp" android:id="@+id/button"
+            android:background="@drawable/btn_round_large" android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-medium" android:textSize="14sp"
+            android:textStyle="normal|bold" android:textAlignment="center" android:layout_marginRight="5dp"
+            android:layout_marginLeft="7dp"/>
 </GridLayout>

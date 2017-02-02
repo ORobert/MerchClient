@@ -17,6 +17,15 @@ public class Order implements Serializable{
 	private Date date;
 	private int prodCount;
 	private Integer driverId;
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public int getDriverId() {
 		return driverId;

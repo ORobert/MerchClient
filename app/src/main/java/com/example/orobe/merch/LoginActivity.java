@@ -61,7 +61,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         try {
-			Client.setupConnection("192.168.1.48", 55555);
+			//Client.setupConnection("192.168.1.48", 55555);
+            Client.setupConnection("172.25.12.199", 55555);
 		}catch(IOException e){
         	e.printStackTrace();
 		}

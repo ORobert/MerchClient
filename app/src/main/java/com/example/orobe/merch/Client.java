@@ -18,7 +18,7 @@ import java.util.concurrent.*;
 public class Client{
     protected static String host;
     protected static int port;
-    protected static Executor exec;
+    public static Executor exec;
     protected static Socket server;
     protected static ObjectOutputStream send;
     protected static ObjectInputStream receive;

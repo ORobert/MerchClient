@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Sergiu on 29-Jan-17.
  */
-public class UpdateLocationRequest implements Request {
+public class UpdateLocationRequest implements UpdateRequest {
 	private List<Order> orders;
 	private double longitude, latitude;
 

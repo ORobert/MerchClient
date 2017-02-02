@@ -5,14 +5,14 @@ import Models.User;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
 
+import java.io.*;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 /**
  * Created by Sergiu on 27-Jan-17.
@@ -27,11 +27,15 @@ public class DriverResources{
 	private DriverResources() {
 	}
 
-	public static void startUpdaterThread(Activity act){
-		(new UpdaterThread()).execute(act);
+	public static void startRealUpdaterThread(Activity act){
+		(new RealUpdaterThread()).execute(act);
 	}
 
-	private static class UpdaterThread extends AsyncTask<Activity, Void, Void> {
+	public static void startFakeUpdaterThread(Activity act, AssetManager manager){
+		(new FakeUpdaterThread()).executeOnExecutor(Client.exec,act,manager);
+	}
+
+	private static class RealUpdaterThread extends AsyncTask<Activity, Void, Void> {
 		@Override
 		protected Void doInBackground(Activity... params) {
 			LocationManager locationManager = (LocationManager) params[0].getSystemService(Context.LOCATION_SERVICE);
@@ -47,6 +51,39 @@ public class DriverResources{
 				}
 				SystemClock.sleep(5000);
 			}
+		}
+	}
+
+	private static class FakeUpdaterThread extends AsyncTask<Object, Void, Void> {
+		@Override
+		protected Void doInBackground(Object... params) {
+			BufferedReader reader;
+			String line;
+			String[] tokens;
+			try {
+				AssetManager manager=(AssetManager)params[1];
+				reader = new BufferedReader(new InputStreamReader(manager.open("gps.gps")));
+				line=reader.readLine();
+			}catch(IOException e){
+				e.printStackTrace();
+				this.cancel(false);
+				return null;
+			}
+			while (line!=null) {
+				tokens=line.split("\t");
+				synchronized (lock) {
+					if(ordersInTransit.size()>0) {
+						Client.updateOrderLocation(ordersInTransit, Float.parseFloat(tokens[2]), Float.parseFloat(tokens[1]));
+					}
+				}
+				SystemClock.sleep(5000);
+				try {
+					line = reader.readLine();
+				}catch (IOException e){
+					e.printStackTrace();
+				}
+			}
+			return null;
 		}
 	}
 }

@@ -42,7 +42,7 @@ public class DriverOrderActivity extends AppCompatActivity implements DOrderFrag
 			DriverResources.user = (User) intent.getSerializableExtra("user");
 			DriverResources.orders = Client.getConfirmedOrders();
 			DriverResources.ordersInTransit = Client.getOrdersByDriver(DriverResources.user);
-			DriverResources.startUpdaterThread(this);
+			DriverResources.startFakeUpdaterThread(this,getAssets());
 		}catch(ProtocolException e){}
 		setContentView(R.layout.activity_driver_order);
 
