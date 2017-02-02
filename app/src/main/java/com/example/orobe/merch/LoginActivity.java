@@ -41,6 +41,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
+
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -61,8 +62,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         try {
-			//Client.setupConnection("192.168.1.48", 55555);
-            Client.setupConnection("172.25.12.199", 55555);
+
+			Client.setupConnection("172.25.13.162", 55555);
+
 		}catch(IOException e){
         	e.printStackTrace();
 		}

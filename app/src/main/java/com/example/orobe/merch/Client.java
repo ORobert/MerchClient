@@ -1,9 +1,12 @@
 package com.example.orobe.merch;
 
 import Models.Order;
+import Models.Product;
 import Models.User;
 import Protocol.*;
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,7 +33,22 @@ public class Client{
         port = port1;
         exec=Executors.newFixedThreadPool(10);
 		(new ConnectionCreator()).executeOnExecutor(exec);
-    }
+	}
+
+	public static List<Product> getAllProducts()throws ProtocolException{
+    	GetAllRequest getAllRequest = new GetAllRequest();
+    	sendRequest(getAllRequest);
+    	try{
+    		Response resp = responses.take();
+    		if (resp instanceof GetAllResponse)
+    			return ((GetAllResponse) resp).getProductsList();
+    		else
+    			throw new ProtocolException("Invalid response from server in getAllProducts");
+		}catch (InterruptedException e){
+    		e.printStackTrace();
+    		throw new ProtocolException("IntreruptedExcetion");
+		}
+	}
 
 	public static List<Order> getOrdersByDriver(User driver)throws ProtocolException{
 		GetOrdersByDriverRequest orderRequest = new GetOrdersByDriverRequest(driver);
@@ -155,7 +173,7 @@ public class Client{
 		}
 	}
 
-    private static class ThreadReader extends AsyncTask<Void,Void,Void>{
+	private static class ThreadReader extends AsyncTask<Void,Void,Void>{
 		@Override
 		protected Void doInBackground(Void... params) {
 			while(true){

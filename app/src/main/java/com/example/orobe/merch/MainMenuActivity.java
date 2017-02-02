@@ -2,9 +2,9 @@ package com.example.orobe.merch;
 
 import Models.Order;
 import Models.Product;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,13 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import  android.support.v4.app.Fragment;
 
 import java.io.IOException;
 import java.util.List;
 
-public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private List<Product> list;
-    private Client client;
+public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,ShopFragment.OnListFragmentInteractionListener {
+//    private List<Product> list;
+//    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,9 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         //client.setActivity(this);
     }
 
-    public void handleGetAllRequest(List<Product> list){
-        this.list=list;
-    }
+//    public void handleGetAllRequest(List<Product> list){
+//        this.list=list;
+//    }
 
     @Override
     public void onBackPressed() {
@@ -53,6 +54,11 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onListFragmentInteraction(Product item) {
+
     }
 
     @Override
@@ -86,9 +92,12 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         if (id == R.id.nav_stock) {
 
         } else if (id == R.id.nav_shop) {
-            ShopFragment shopFragment = new ShopFragment(list);
-            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            ShopFragment shopFragment = new ShopFragment();
+            android.app.FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main_menu,shopFragment,shopFragment.getTag()).commit();
+
+
+
         } else if (id == R.id.nav_track) {
             /*Order order;
             OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment(order);

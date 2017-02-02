@@ -50,6 +50,13 @@ public class Product implements Serializable {
     }
 
     public String toString(){
-        return "Name "+name;
+        String stock="";
+        if(this.quantity > 0){
+            stock="In Stock";
+        }
+        else {
+            stock="Stock 0";
+        }
+        return name + "------" + price + "$   " + stock;
     }
 }
