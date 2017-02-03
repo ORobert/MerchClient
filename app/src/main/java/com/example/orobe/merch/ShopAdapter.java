@@ -53,7 +53,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
 //                holder.mCheck.setChecked(holder.mCheck.isChecked());
-                if (holder.mCheck.isChecked()){
+                if (holder.mCheck.isChecked() && !holder.mEditText.getText().toString().equals("")){
                     int new_quantity=Integer.valueOf(holder.mEditText.getText().toString());
                     int current_quantity=holder.mItem.getQuantity();
                     String name = holder.mItem.getName();

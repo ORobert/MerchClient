@@ -12,7 +12,7 @@
             app2:layoutManager="LinearLayoutManager"
             app:context="com.example.orobe.merch.ShopFragment"
             app:listitem="@layout/shop_list_item"
-            android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true" android:layout_above="@+id/Order"/>
     <Button
             android:text="Order"
             android:layout_width="wrap_content"

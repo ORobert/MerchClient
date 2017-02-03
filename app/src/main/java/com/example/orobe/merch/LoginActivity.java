@@ -10,6 +10,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.text.format.Formatter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,7 @@ import android.widget.*;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,8 +65,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         try {
-
-			Client.setupConnection("172.25.12.214", 55555);
+//            String my_ip=InetAddress.getLocalHost().getHostAddress().toString();
+//            WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+//            String my_ip= String.valueOf(wifiManager.getConnectionInfo().getIpAddress());
+//            System.out.println("Setting up connection with your IP:"+my_ip);
+			Client.setupConnection("192.168.0.11", 55555);
 
 		}catch(IOException e){
         	e.printStackTrace();
@@ -180,6 +186,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             try {
 				User user=Client.login(email,password);
+				Client.setUser(user);
 				Toast toast=Toast.makeText(getApplicationContext(),"Succes",Toast.LENGTH_SHORT);
 				toast.show();
 				if(user.getUserType()== UserType.Normal) {
