@@ -33,9 +33,22 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 	private MapView mapView;
 	private Marker positionMarker;
 	private GoogleMap map;
-	private AsyncTask<Object,Void,Void> obj;
+	private AsyncTask<Object,Double,Void> obj;
+	private VariableChangeListener changeListener;
 
 	public OrderDetailsFragment() {
+	}
+
+	public void onVariableChanged(Double longitude, Double latitude) {
+		updateMapPosition(longitude, latitude);
+	}
+
+	public void setVariableChangeListener(VariableChangeListener variableChangeListener) {
+		this.changeListener = variableChangeListener;
+	}
+
+	public void updateCoord(Double longitude, Double latitude){
+		this.onVariableChanged(longitude,latitude);
 	}
 
 	@SuppressWarnings("unused")
@@ -62,6 +75,7 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 		map.getUiSettings().setMapToolbarEnabled(true);
 		map.getUiSettings().setZoomControlsEnabled(true);
 		map.setMaxZoomPreference(16);
+		map.setMinZoomPreference(14);
 		map.animateCamera(CameraUpdateFactory.zoomTo(14));
 		MarkerOptions markerOptions = new MarkerOptions();
 		markerOptions.title("Curier");

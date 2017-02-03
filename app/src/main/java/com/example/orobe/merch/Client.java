@@ -57,8 +57,8 @@ public class Client{
 		}
 	}
 
-	public static AsyncTask<Object,Void,Void> startUpdaterThread(OrderDetailsFragment frag, Order order){
-		AsyncTask<Object,Void,Void> obj=new MapUpdaterThread();
+	public static AsyncTask<Object,Double,Void> startUpdaterThread(OrderDetailsFragment frag, Order order){
+		AsyncTask<Object,Double,Void> obj=new MapUpdaterThread();
 		obj.executeOnExecutor(exec,frag,order);
 		return obj;
 	}
@@ -193,7 +193,6 @@ public class Client{
         }
     }*/
 
-
 	private static class ConnectionCreator extends AsyncTask<Void,Void,Void> {
 		protected Void doInBackground(Void... args) {
 			try {
@@ -238,21 +237,29 @@ public class Client{
 		}
 	}
 
-	private static class MapUpdaterThread extends AsyncTask<Object,Void,Void>{
+	private static class MapUpdaterThread extends AsyncTask<Object,Double,Void>{
+		private OrderDetailsFragment frag;
 		@Override
 		protected Void doInBackground(Object... params) {
-			OrderDetailsFragment frag= (OrderDetailsFragment) params[0];
+			frag= (OrderDetailsFragment) params[0];
 			Order order=(Order) params[1];
 			while(true){
 				SystemClock.sleep(5000);
 				try {
 					requests.put(new GetLocationRequest(order));
 					LocationResponse response = (LocationResponse) responses.take();
-					frag.updateMapPosition(response.getLatitude(), response.getLongitude());
+					//frag.updateCoord(response.getLatitude(), response.getLongitude());
+					publishProgress(new Double[]{response.getLatitude(),response.getLongitude()});
 				}catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
+		}
+
+		@Override
+		protected void onProgressUpdate(Double... values) {
+			super.onProgressUpdate(values);
+			frag.updateMapPosition(values[0],values[1]);
 		}
 	}
 

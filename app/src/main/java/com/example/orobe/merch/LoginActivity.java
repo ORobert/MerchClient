@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         try {
 
-			Client.setupConnection("172.25.13.162", 55555);
+			Client.setupConnection("172.25.12.214", 55555);
 
 		}catch(IOException e){
         	e.printStackTrace();
