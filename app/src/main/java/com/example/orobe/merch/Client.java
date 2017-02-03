@@ -19,6 +19,7 @@ import java.util.concurrent.*;
  * Created by orobe on 31/12/2016.
  */
 public class Client{
+	protected static User user;
     protected static String host;
     protected static int port;
     public static Executor exec;
@@ -28,7 +29,11 @@ public class Client{
     protected static BlockingQueue<Response> responses;
 	protected static BlockingQueue<Request> requests;
 
-    public static void setupConnection(String host1, int port1) throws IOException {
+	public static void setUser(User user) {
+		Client.user = user;
+	}
+
+	public static void setupConnection(String host1, int port1) throws IOException {
         host = host1;
         port = port1;
         exec=Executors.newFixedThreadPool(10);
@@ -88,6 +93,19 @@ public class Client{
 			if(resp instanceof ErrorResponse)
 				throw new ProtocolException("Error while taking orders!");
 		}catch(InterruptedException e){
+			e.printStackTrace();
+			throw new ProtocolException("IntreruptedExcetion!");
+		}
+	}
+
+	public static void takeUsersOrders(List<Product> products) throws ProtocolException {
+    	OrderProductsRequest orderProductsRequest = new OrderProductsRequest(user.getId(),products);
+    	sendRequest(orderProductsRequest);
+    	try {
+    		Response resp = responses.take();
+    		if (resp instanceof ErrorResponse)
+				throw new ProtocolException("Error while taking orders from user!");
+		}catch (InterruptedException e){
 			e.printStackTrace();
 			throw new ProtocolException("IntreruptedExcetion!");
 		}

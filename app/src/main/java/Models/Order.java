@@ -10,7 +10,7 @@ import java.util.List;
 public class Order implements Serializable{
 	private int id;
 	private String state;
-	//private User owner;
+	private Integer ownerId;
 	private String username;
 	private Double latitude;
 	private Double longitude;
@@ -18,6 +18,23 @@ public class Order implements Serializable{
 	private int prodCount;
 	private Integer driverId;
 	private String address;
+//	private List<Product> products;
+//
+//	public List<Product> getProducts() {
+//		return products;
+//	}
+//
+//	public void setProducts(List<Product> products) {
+//		this.products = products;
+//	}
+
+	public Integer getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Integer ownerId) {
+		this.ownerId = ownerId;
+	}
 
 	public String getAddress() {
 		return address;
@@ -25,14 +42,6 @@ public class Order implements Serializable{
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public int getDriverId() {
-		return driverId;
-	}
-
-	public void setDriverId(int driverId) {
-		this.driverId = driverId;
 	}
 
 	public String getUsername() {
@@ -50,11 +59,25 @@ public class Order implements Serializable{
 	public void setProdCount(int prodCount) {
 		this.prodCount = prodCount;
 	}
-	//private List<Product> products;
-	//private User driver;
+
+	public int getDriverId() {
+		return driverId;
+	}
+
+	public void setDriverId(int driverId) {
+		this.driverId = driverId;
+	}
 
 	public Order(){
 		state="Confirmed";
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public int getId() {
@@ -63,22 +86,6 @@ public class Order implements Serializable{
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	/*public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}*/
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getState() {
@@ -105,19 +112,4 @@ public class Order implements Serializable{
 		this.longitude = longitude;
 	}
 
-	/*public User getOwner() {
-		return owner;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
-
-	public User getDriver() {
-		return driver;
-	}
-
-	public void setDriver(User driver) {
-		this.driver = driver;
-	}*/
 }

@@ -1,22 +1,36 @@
 package Protocol;
 
 import Models.Order;
+import Models.Product;
+
+import java.util.List;
 
 /**
  * Created by Sergiu on 19-Jan-17.
  */
 public class OrderProductsRequest implements Request {
-	private Order order;
+	private Integer ownerId;
+	private List<Product> products;
 
-	public OrderProductsRequest(Order order) {
-		this.order = order;
+
+	public OrderProductsRequest(Integer ownerId, List<Product> products) {
+		this.ownerId = ownerId;
+		this.products = products;
 	}
 
-	public Order getOrder() {
-		return order;
+	public List<Product> getProducts() {
+		return products;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	public Integer getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Integer ownerId) {
+		this.ownerId = ownerId;
 	}
 }

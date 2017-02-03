@@ -1,5 +1,6 @@
 package com.example.orobe.merch;
 
+import Models.Order;
 import Models.Product;
 import Protocol.GetAllRequest;
 import Protocol.ProtocolException;
@@ -12,7 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShopFragment extends Fragment {
@@ -22,6 +25,7 @@ public class ShopFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private List<Product> curentSelectedItems = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -52,6 +56,7 @@ public class ShopFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.shop_layout, container, false);
+        Button button = (Button) view.findViewById(R.id.Order);
         RecyclerView recyclerView= (RecyclerView) view.findViewById(R.id.shopList);
         // Set the adapter
         //if (view instanceof RecyclerView) {
@@ -63,11 +68,31 @@ public class ShopFragment extends Fragment {
             }
 
             try {
-                recyclerView.setAdapter(new ShopAdapter(Client.getAllProducts(), mListener));
+                recyclerView.setAdapter(new ShopAdapter(Client.getAllProducts(),button,getContext(),new ShopAdapter.OnClickListener(){
+
+                    @Override
+                    public void onItemCheck(Product product) {
+                        curentSelectedItems.add(product);
+                    }
+
+                    @Override
+                    public void onItemUncheck(Product product) {
+                        curentSelectedItems.remove(product);
+                    }
+
+                    @Override
+                    public void onOrderClick() {
+                        try {
+                            Client.takeUsersOrders(curentSelectedItems);
+                        } catch (ProtocolException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }));
+
             } catch (ProtocolException e) {
                 e.printStackTrace();
             }
-        //}
         return view;
     }
 

@@ -1,6 +1,7 @@
 package Models;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by orobe on 27/12/2016.
@@ -10,8 +11,18 @@ public class Product implements Serializable {
     private String name;
     private int quantity;
 	private double price;
+//    private List<Order> orders;
 
     public Product(){}
+
+//
+//    public List<Order> getOrderList() {
+//        return orders;
+//    }
+//
+//    public void setOrderList(List<Order> orders) {
+//        this.orders = orders;
+//    }
 
     public Product(final String name){
         this.name=name;
@@ -25,15 +36,15 @@ public class Product implements Serializable {
         this.quantity = quantity;
     }
 
-	public double getPrice() {
-		return price;
-	}
+    public double getPrice() {
+        return price;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-	public int getId() {
+    public int getId() {
         return id;
     }
 
@@ -57,6 +68,6 @@ public class Product implements Serializable {
         else {
             stock="Stock 0";
         }
-        return name + "------" + price + "$   " + stock;
+        return name + "------" + price + "   " + stock;
     }
 }

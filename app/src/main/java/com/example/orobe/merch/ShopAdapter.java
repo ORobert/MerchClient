@@ -1,13 +1,13 @@
 package com.example.orobe.merch;
 
 import Models.Product;
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +15,29 @@ import java.util.List;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
-    private final List<Product> mValues;
-    private final ShopFragment.OnListFragmentInteractionListener mListener;
-    private final ArrayList<Integer> itemsCheckd;
+    interface OnClickListener{
+        void onItemCheck(Product product);
+        void onItemUncheck(Product product);
+        void onOrderClick();
+    }
 
-    public ShopAdapter(List<Product> items, ShopFragment.OnListFragmentInteractionListener listener) {
+    @NonNull
+    private final OnClickListener onClickListener;
+    private final List<Product> mValues;
+    private final Context context;
+    private Button mButton;
+
+    public ShopAdapter(List<Product> items, Button button, Context context, @NonNull OnClickListener onClickListener) {
+        mButton=button;
         mValues = items;
-        mListener = listener;
-        itemsCheckd = new ArrayList<>();
+        this.onClickListener=onClickListener;
+        this.context=context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_list_item, parent, false);
+
         return new ViewHolder(view);
     }
 
@@ -39,21 +49,33 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         //holder.mIdView.setText(mValues.get(position).id);
         //holder.mContentView.setText(mValues.get(position).content);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.mCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                   // mListener.onListFragmentInteraction(holder.mItem);
-                    holder.mCheck.setChecked(holder.mCheck.isChecked());
-                    if (holder.mCheck.isChecked()){
-//                        itemsCheckd.add();
+//                holder.mCheck.setChecked(holder.mCheck.isChecked());
+                if (holder.mCheck.isChecked()){
+                    int new_quantity=Integer.valueOf(holder.mEditText.getText().toString());
+                    int current_quantity=holder.mItem.getQuantity();
+                    String name = holder.mItem.getName();
+                    if (new_quantity>current_quantity){
+                        Toast toast=Toast.makeText(context,"Prea multe " + name + " comandate",Toast.LENGTH_LONG);
+                        toast.show();
                     }else{
+                        holder.mItem.setQuantity(new_quantity);
+                        onClickListener.onItemCheck(holder.mItem);
 
                     }
 
+                }else{
+                    onClickListener.onItemUncheck(holder.mItem);
                 }
+            }
+        });
+
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onOrderClick();
             }
         });
     }
@@ -66,8 +88,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mContent;
-        public final Button mButton;
         public final CheckBox mCheck;
+        public final EditText mEditText;
         public Product mItem;
 
 
@@ -75,10 +97,13 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             super(view);
             mView = view;
             mContent = (TextView) view.findViewById(R.id.content);
-            mButton= (Button) view.findViewById(R.id.Order);
             mCheck = (CheckBox) view.findViewById(R.id.buy_this);
+            mEditText = (EditText) view.findViewById(R.id.quantity);
         }
-
+//
+//        public void setOnClickListener(View.OnClickListener onClickListener) {
+//            itemView.setOnClickListener(onClickListener);
+//        }
  //       @Override
 //        public String toString() {
 //            return super.toString() + " '" + mContentView.getText() + "'";
