@@ -7,6 +7,8 @@ import Protocol.*;
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.SystemClock;
+import android.support.v4.app.Fragment;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -55,6 +57,12 @@ public class Client{
 		}
 	}
 
+	public static AsyncTask<Object,Void,Void> startUpdaterThread(OrderDetailsFragment frag, Order order){
+		AsyncTask<Object,Void,Void> obj=new MapUpdaterThread();
+		obj.executeOnExecutor(exec,frag,order);
+		return obj;
+	}
+
 	public static List<Order> getOrdersByDriver(User driver)throws ProtocolException{
 		GetOrdersByDriverRequest orderRequest = new GetOrdersByDriverRequest(driver);
 		sendRequest(orderRequest);
@@ -79,6 +87,22 @@ public class Client{
 				return ((GetOrdersResponse) resp).getOrders();
 			else
 				throw new ProtocolException("Invalid response received from the server!");
+		}catch(InterruptedException e){
+			e.printStackTrace();
+			throw new ProtocolException("IntreruptedExcetion!");
+		}
+	}
+
+	public static List<Product> getProductsByOrder(Order order) throws ProtocolException{
+		GetProductsByOrderRequest getRequest = new GetProductsByOrderRequest(order);
+		sendRequest(getRequest);
+		try {
+			Response resp = responses.take();
+			if(resp instanceof GetAllResponse)
+				return ((GetAllResponse) resp).getProductsList();
+			else{
+				throw new ProtocolException("Valoare incorecta de la server!");
+			}
 		}catch(InterruptedException e){
 			e.printStackTrace();
 			throw new ProtocolException("IntreruptedExcetion!");
@@ -209,6 +233,24 @@ public class Client{
 				}catch(ClassNotFoundException er) {
 					er.printStackTrace();
 					return null;
+				}
+			}
+		}
+	}
+
+	private static class MapUpdaterThread extends AsyncTask<Object,Void,Void>{
+		@Override
+		protected Void doInBackground(Object... params) {
+			OrderDetailsFragment frag= (OrderDetailsFragment) params[0];
+			Order order=(Order) params[1];
+			while(true){
+				SystemClock.sleep(5000);
+				try {
+					requests.put(new GetLocationRequest(order));
+					LocationResponse response = (LocationResponse) responses.take();
+					frag.updateMapPosition(response.getLatitude(), response.getLongitude());
+				}catch (InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
 		}

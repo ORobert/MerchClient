@@ -40,8 +40,6 @@ public class DriverResources{
 		protected Void doInBackground(Activity... params) {
 			LocationManager locationManager = (LocationManager) params[0].getSystemService(Context.LOCATION_SERVICE);
 			params[0].requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1337);
-			//LocationListener locationListener = new MyLocationListener();
-			//locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
 			while (true) {
 				Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 				if (loc != null) {

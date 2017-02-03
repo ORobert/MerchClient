@@ -6,9 +6,16 @@ import java.util.List;
 
 
 public class GetAllResponse implements Response {
-    List<Product> products;
+    private List<Product> products;
 
-    public List<Product> getProductsList() {
+    public GetAllResponse(List<Product> products) {
+        this.products = products;
+    }
+
+	public GetAllResponse() {
+	}
+
+	public List<Product> getProductsList() {
         return products;
     }
 

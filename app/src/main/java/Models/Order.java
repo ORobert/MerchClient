@@ -15,6 +15,7 @@ public class Order implements Serializable{
 	private Double latitude;
 	private Double longitude;
 	private Date date;
+	private String driver;
 	private int prodCount;
 	private Integer driverId;
 	private String address;
@@ -27,6 +28,15 @@ public class Order implements Serializable{
 //	public void setProducts(List<Product> products) {
 //		this.products = products;
 //	}
+
+
+	public String getDriver() {
+		return driver;
+	}
+
+	public void setDriver(String driver) {
+		this.driver = driver;
+	}
 
 	public Integer getOwnerId() {
 		return ownerId;
@@ -96,19 +106,19 @@ public class Order implements Serializable{
 		this.state = state;
 	}
 
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 

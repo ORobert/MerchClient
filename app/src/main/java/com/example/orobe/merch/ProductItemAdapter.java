@@ -28,19 +28,10 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 	@Override
 	public void onBindViewHolder(final ViewHolder holder, int position) {
 		holder.mItem = mValues.get(position);
-		//holder.mIdView.setText(mValues.get(position).id);
-		//holder.mContentView.setText(mValues.get(position).content);
-
-		/*holder.mView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (null != mListener) {
-					// Notify the active callbacks interface (the activity, if the
-					// fragment is attached to one) that an item has been selected.
-					mListener.onListFragmentInteraction(holder.mItem);
-				}
-			}
-		});*/
+		holder.mId.setText("Id: "+mValues.get(position).getId());
+		holder.mContent.setText(mValues.get(position).getName());
+		holder.mPrice.setText(mValues.get(position).getPrice()+"$");
+		holder.mQuantity.setText(""+mValues.get(position).getQuantity());
 	}
 
 	@Override
@@ -50,20 +41,19 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public final View mView;
-		public final TextView mIdView;
-		public final TextView mContentView;
+		public final TextView mId;
+		public final TextView mContent;
+		public final TextView mPrice;
+		public final TextView mQuantity;
 		public Product mItem;
 
 		public ViewHolder(View view) {
 			super(view);
 			mView = view;
-			mIdView = (TextView) view.findViewById(R.id.id);
-			mContentView = (TextView) view.findViewById(R.id.content);
-		}
-
-		@Override
-		public String toString() {
-			return super.toString() + " '" + mContentView.getText() + "'";
+			mId = (TextView) view.findViewById(R.id.id);
+			mContent = (TextView) view.findViewById(R.id.content);
+			mQuantity = (TextView) view.findViewById(R.id.quantity);
+			mPrice = (TextView) view.findViewById(R.id.price);
 		}
 	}
 }

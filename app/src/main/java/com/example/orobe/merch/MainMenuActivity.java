@@ -2,7 +2,7 @@ package com.example.orobe.merch;
 
 import Models.Order;
 import Models.Product;
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,15 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import  android.support.v4.app.Fragment;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.Date;
 
-public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,ShopFragment.OnListFragmentInteractionListener {
-//    private List<Product> list;
-//    private Client client;
-
+public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OrderDetailsFragment.OnListFragmentInteractionListener	,ShopFragment.OnListFragmentInteractionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +25,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -74,12 +68,9 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -90,19 +81,24 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         int id = item.getItemId();
 
         if (id == R.id.nav_stock) {
-
         } else if (id == R.id.nav_shop) {
             ShopFragment shopFragment = new ShopFragment();
             android.app.FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main_menu,shopFragment,shopFragment.getTag()).commit();
-
-
-
         } else if (id == R.id.nav_track) {
-            /*Order order;
-            OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment(order);
+            Order order=new Order();
+            order.setId(1);
+            order.setState("ToBeDelivered");
+            order.setAddress("Oradea");
+            order.setProdCount(160);
+            order.setDriver("User3");
+            order.setDate(new Date(2017,1,2));
+            OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("order", order);
+			orderDetailsFragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_main_menu,orderDetailsFragment,orderDetailsFragment.getTag()).commit();*/
+            fragmentManager.beginTransaction().replace(R.id.content_main_menu,orderDetailsFragment,orderDetailsFragment.getTag()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

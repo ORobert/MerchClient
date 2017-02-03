@@ -20,7 +20,6 @@ public class DOrderFragment extends Fragment{
 
 	public DOrderFragment() {}
 
-	// TODO: Customize parameter initialization
 	public static DOrderFragment newInstance(int columnCount) {
 		DOrderFragment fragment = new DOrderFragment();
 		Bundle args = new Bundle();
@@ -39,15 +38,14 @@ public class DOrderFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.driver_order_list, container, false);
-		//if (view instanceof RecyclerView) {
 			Context context = view.getContext();
-			//RecyclerView recyclerView = (RecyclerView) view;
 			final RecyclerView recyclerView=(RecyclerView)view.findViewById(R.id.list);
 			if (mColumnCount <= 1)
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			else
 				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-			final OrderRecyclerAdapter adapter=new OrderRecyclerAdapter(DriverResources.orders, mListener);
+			final OrderRecyclerAdapter adapter=new OrderRecyclerAdapter
+					(DriverResources.orders, mListener);
 			Button button=(Button)view.findViewById(R.id.button);
 			button.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -61,16 +59,17 @@ public class DOrderFragment extends Fragment{
 						adapter.notifyItemRemoved(position);
 					}
 					synchronized (DriverResources.lock) {
-						DriverResources.ordersInTransit.addAll(DriverResources.orders);
+						DriverResources.ordersInTransit.addAll(DriverResources.selected);
 					}
 					adapter.notifyDataSetChanged();
+					DeliveryFragment.recyclerView.getAdapter().notifyDataSetChanged();
 					try {
 						Client.takeOrders(DriverResources.selected);
+						DriverResources.selected.clear();
 					}catch(ProtocolException e){}
 				}
 			});
 			recyclerView.setAdapter(adapter);
-		//}
 		return view;
 	}
 
@@ -90,17 +89,7 @@ public class DOrderFragment extends Fragment{
 		mListener = null;
 	}
 
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated
-	 * to the activity and potentially other fragments contained in that
-	 * activity.
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
 	public interface OnListFragmentInteractionListener{
-		// TODO: Update argument type and name
 		void onListFragmentInteraction(Order item);
 	}
 }

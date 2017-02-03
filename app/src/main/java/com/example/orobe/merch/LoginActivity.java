@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         try {
 
-			Client.setupConnection("192.168.0.11", 55555);
+			Client.setupConnection("172.25.13.162", 55555);
 
 		}catch(IOException e){
         	e.printStackTrace();
@@ -143,11 +143,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        if (mAuthTask != null) {
 //            return;
 //        }
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
-
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
@@ -184,7 +182,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 				User user=Client.login(email,password);
 				Toast toast=Toast.makeText(getApplicationContext(),"Succes",Toast.LENGTH_SHORT);
 				toast.show();
-				Client.setUser(user);
 				if(user.getUserType()== UserType.Normal) {
 					Intent mainMenuActivity = new Intent(this, MainMenuActivity.class);
 					mainMenuActivity.putExtra("user",user);

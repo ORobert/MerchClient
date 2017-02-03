@@ -1,29 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
-
+<RelativeLayout xmlns:app="http://schemas.android.com/tools" xmlns:app2="http://schemas.android.com/apk/res-auto"
+                xmlns:app3="http://schemas.android.com/apk/res-auto" android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent" android:orientation="horizontal">
     <TextView
             android:id="@+id/id"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem" android:text="Id: 1000" android:textSize="16sp"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="7dp"
+            android:layout_alignParentLeft="true"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Id: 100" android:textSize="16sp"
             android:textStyle="bold"/>
-
+    <View
+            android:layout_width="2dp"
+            android:layout_toEndOf="@id/id"
+            android:background="@color/colorPrimary" android:elevation="1dp" android:layout_height="20dp"
+            android:layout_marginTop="5dp" android:id="@+id/emp_sp"/>
     <TextView
             android:id="@+id/content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            android:layout_toEndOf="@id/emp_sp"
+            android:layout_toStartOf="@+id/emp_sp1"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="7dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="Nume produs" android:textSize="16sp"
+            android:textStyle="bold"/>
+    <View
+            android:layout_width="2dp"
+            android:layout_toStartOf="@+id/price"
+            android:background="@color/colorPrimary"
+            android:elevation="1dp" android:layout_height="20dp"
+            android:layout_marginTop="5dp" android:id="@+id/emp_sp1"/>
     <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/textView" android:layout_weight="1"/>
+            android:id="@+id/price"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_toStartOf="@+id/emp_sp2"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem" android:text="Pret 0" android:textSize="16sp"
+            android:textStyle="bold"/>
+    <View
+            android:layout_width="2dp"
+            android:layout_toStartOf="@+id/quantity"
+            android:background="@color/colorPrimary"
+            android:elevation="1dp" android:layout_height="20dp"
+            android:layout_marginTop="5dp" android:id="@+id/emp_sp2"/>
     <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_weight="1"/>
-</LinearLayout>
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/quantity"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="7dp"
+            android:textAppearance="?attr/textAppearanceListItem" android:text="100"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+</RelativeLayout>

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 public class DeliveryFragment extends Fragment {
 	private static final String ARG_COLUMN_COUNT = "column-count";
 	private int mColumnCount = 1;
+	public static RecyclerView recyclerView;
 	private OnListFragmentInteractionListener mListener;
 
 	public DeliveryFragment() {}
@@ -40,7 +41,7 @@ public class DeliveryFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_delivery_list, container, false);
 		if (view instanceof RecyclerView) {
 			Context context = view.getContext();
-			RecyclerView recyclerView = (RecyclerView) view;
+			recyclerView = (RecyclerView) view;
 			if (mColumnCount <= 1) {
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			} else {

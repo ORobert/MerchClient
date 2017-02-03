@@ -109,7 +109,7 @@
                     android:layout_below="@id/productButton"
                     android:background="@drawable/back_border"
                     android:visibility="gone"
-                    android:layout_height="600dp">
+                    android:layout_height="300dp">
 
                 <TextView
                         android:text="Lista de produse" android:layout_alignParentTop="true"
@@ -147,6 +147,8 @@
             <com.google.android.gms.maps.MapView
                     android:background="@drawable/back_border"
                     android:visibility="gone"
+                    android:enabled="true"
+                    android:clickable="true"
                     android:layout_width="match_parent" android:layout_below="@id/mapButton"
                     android:layout_marginTop="10dp"
                     android:layout_height="400dp" android:id="@+id/mapView" android:layout_alignParentStart="true"/>
