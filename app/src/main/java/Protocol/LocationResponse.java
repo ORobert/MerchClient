@@ -4,26 +4,17 @@ package Protocol;
  * Created by Sergiu on 03-Feb-17.
  */
 public class LocationResponse implements Response {
-	private Double longitude, latitude;
+	private Double[] coord;
 
-	public LocationResponse(Double longitude, Double latitude) {
-		this.longitude = longitude;
-		this.latitude = latitude;
+	public LocationResponse(Double[] coord) {
+		this.coord = coord;
 	}
 
-	public Double getLongitude() {
-		return longitude;
+	public Double[] getCoord() {
+		return coord;
 	}
 
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
-	}
-
-	public Double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
+	public void setCoord(Double[] coord) {
+		this.coord = coord;
 	}
 }

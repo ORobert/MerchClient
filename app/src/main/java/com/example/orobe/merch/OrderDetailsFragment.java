@@ -34,21 +34,8 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 	private Marker positionMarker;
 	private GoogleMap map;
 	private AsyncTask<Object,Double,Void> obj;
-	private VariableChangeListener changeListener;
 
 	public OrderDetailsFragment() {
-	}
-
-	public void onVariableChanged(Double longitude, Double latitude) {
-		updateMapPosition(longitude, latitude);
-	}
-
-	public void setVariableChangeListener(VariableChangeListener variableChangeListener) {
-		this.changeListener = variableChangeListener;
-	}
-
-	public void updateCoord(Double longitude, Double latitude){
-		this.onVariableChanged(longitude,latitude);
 	}
 
 	@SuppressWarnings("unused")

@@ -249,7 +249,7 @@ public class Client{
 					requests.put(new GetLocationRequest(order));
 					LocationResponse response = (LocationResponse) responses.take();
 					//frag.updateCoord(response.getLatitude(), response.getLongitude());
-					publishProgress(new Double[]{response.getLatitude(),response.getLongitude()});
+					publishProgress(response.getCoord());
 				}catch (InterruptedException e) {
 					e.printStackTrace();
 				}
