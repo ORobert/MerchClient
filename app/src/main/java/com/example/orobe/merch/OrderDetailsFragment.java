@@ -23,10 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.text.SimpleDateFormat;
 
 public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback {
-
-	// TODO: Customize parameter argument names
 	private static final String ARG_COLUMN_COUNT = "column-count";
-	// TODO: Customize parameters
 	private int mColumnCount = 1;
 	private Order order;
 	private OnListFragmentInteractionListener mListener;
@@ -35,8 +32,7 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 	private GoogleMap map;
 	private AsyncTask<Object,Double,Void> obj;
 
-	public OrderDetailsFragment() {
-	}
+	public OrderDetailsFragment() {}
 
 	@SuppressWarnings("unused")
 	public static OrderDetailsFragment newInstance(int columnCount) {
@@ -66,12 +62,7 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 		map.animateCamera(CameraUpdateFactory.zoomTo(14));
 		MarkerOptions markerOptions = new MarkerOptions();
 		markerOptions.title("Curier");
-		LatLng coord;
-		if(order.getLatitude()!=null){
-			coord=new LatLng(order.getLatitude(),order.getLongitude());
-		}else{
-			coord=new LatLng(45.9432,24.9668);
-		}
+		LatLng coord=order.getLatitude()!=null?new LatLng(order.getLatitude(),order.getLongitude()):new LatLng(45.9432,24.9668);
 		markerOptions.position(coord);
 		positionMarker = map.addMarker(markerOptions);
 		positionMarker.setDraggable(false);
@@ -96,11 +87,10 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 		((TextView)view.findViewById(R.id.date)).setText(sdf.format(order.getDate()));
 		TextView status= (TextView) view.findViewById(R.id.status);
 		TextView driver= (TextView) view.findViewById(R.id.driver);
-		if(order.getDriver()!=null){
+		if(order.getDriver()!=null)
 			driver.setText(order.getDriver());
-		}else{
+		else
 			driver.setText("N/A");
-		}
 		switch (order.getState()){
 			case("Confirmed"):
 				status.setText("Confirmata");
@@ -131,14 +121,19 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 		mapView.onCreate(savedInstanceState);
 		mapView.getMapAsync(this);
 		MapsInitializer.initialize(this.getActivity());
-		if(order.getState()=="ToBeDelivered") {
+		final OrderDetailsFragment frag=this;
+		if(order.getState().equals("ToBeDelivered")) {
 			mapButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if(mapView.getVisibility()==View.VISIBLE){
+						obj.cancel(false);
 						mapButton.setText("Arata Harta!");
 						mapView.setVisibility(View.GONE);
 					}else{
+						if(obj!=null && obj.getStatus()== AsyncTask.Status.FINISHED){
+							obj=Client.startUpdaterThread(frag,order);
+						}
 						mapButton.setText("Ascunde Harta!");
 						mapView.setVisibility(View.VISIBLE);
 					}
@@ -149,11 +144,10 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 		}
 		RecyclerView recyclerView= (RecyclerView) view.findViewById(R.id.list);
 		Context context = view.getContext();
-		if (mColumnCount <= 1) {
+		if (mColumnCount <= 1)
 			recyclerView.setLayoutManager(new LinearLayoutManager(context));
-		} else {
+		else
 			recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-		}
 		try {
 			recyclerView.setAdapter(new ProductItemAdapter(Client.getProductsByOrder(order), mListener));
 		}catch (ProtocolException e){
@@ -165,17 +159,23 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
-		if (context instanceof OnListFragmentInteractionListener) {
+		if (context instanceof OnListFragmentInteractionListener)
 			mListener = (OnListFragmentInteractionListener) context;
-		} else {
+		else
 			throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
-		}
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
 		mListener = null;
+		obj.cancel(true);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		obj.cancel(true);
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public class OrderDetailsFragment extends Fragment implements OnMapReadyCallback
 	public void onDestroy() {
 		super.onDestroy();
 		mapView.onDestroy();
-		obj.cancel(false);
+		obj.cancel(true);
 	}
 
 	@Override

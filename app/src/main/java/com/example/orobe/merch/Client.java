@@ -4,11 +4,8 @@ import Models.Order;
 import Models.Product;
 import Models.User;
 import Protocol.*;
-import android.annotation.TargetApi;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.SystemClock;
-import android.support.v4.app.Fragment;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -78,6 +75,21 @@ public class Client{
 		}
 	}
 
+	public static List<Order> getOrdersByOwner(User owner)throws ProtocolException{
+		GetOrdersByOwnerRequest orderRequest = new GetOrdersByOwnerRequest(owner);
+		sendRequest(orderRequest);
+		try {
+			Response resp = responses.take();
+			if(resp instanceof GetOrdersResponse)
+				return ((GetOrdersResponse) resp).getOrders();
+			else
+				throw new ProtocolException("Invalid response received from the server!");
+		}catch(InterruptedException e){
+			e.printStackTrace();
+			throw new ProtocolException("IntreruptedExcetion!");
+		}
+	}
+
     public static List<Order> getConfirmedOrders()throws ProtocolException{
 		GetConfirmedOrdersRequest orderRequest = new GetConfirmedOrdersRequest();
 		sendRequest(orderRequest);
@@ -122,8 +134,8 @@ public class Client{
 		}
 	}
 
-	public static void takeUsersOrders(List<Product> products) throws ProtocolException {
-    	OrderProductsRequest orderProductsRequest = new OrderProductsRequest(user.getId(),products);
+	public static void takeUsersOrders(String address,List<Product> products) throws ProtocolException {
+    	OrderProductsRequest orderProductsRequest = new OrderProductsRequest(user.getId(),address,products);
     	sendRequest(orderProductsRequest);
     	try {
     		Response resp = responses.take();
@@ -245,21 +257,24 @@ public class Client{
 			Order order=(Order) params[1];
 			while(true){
 				SystemClock.sleep(5000);
+				if(isCancelled()){
+					break;
+				}
 				try {
 					requests.put(new GetLocationRequest(order));
 					LocationResponse response = (LocationResponse) responses.take();
-					//frag.updateCoord(response.getLatitude(), response.getLongitude());
 					publishProgress(response.getCoord());
 				}catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
+			return null;
 		}
 
 		@Override
 		protected void onProgressUpdate(Double... values) {
 			super.onProgressUpdate(values);
-			frag.updateMapPosition(values[0],values[1]);
+			frag.updateMapPosition(values[0]!=null?values[0]:45.9432,values[1]!=null?values[1]:23.9668);
 		}
 	}
 

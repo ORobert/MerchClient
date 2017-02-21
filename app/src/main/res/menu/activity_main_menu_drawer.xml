@@ -5,10 +5,10 @@
         <item
             android:id="@+id/nav_shop"
             android:icon="@drawable/ic_attach_money_black_24dp"
-            android:title="Shop" />
+            android:title="Magazin" />
         <item
-            android:id="@+id/nav_track"
+            android:id="@+id/nav_orders"
             android:icon="@drawable/ic_directions_bus_black_24dp"
-            android:title="Tracking" />
+            android:title="Comenzi" />
     </group>
 </menu>

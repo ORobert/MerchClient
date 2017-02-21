@@ -76,14 +76,6 @@ public class DeliveryRecyclerAdapter extends RecyclerView.Adapter<DeliveryRecycl
 				builder.create();
 			}
 		});
-
-		/*holder.mView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (null != mListener)
-					mListener.onListFragmentInteraction(holder.mItem);
-			}
-		});*/
 	}
 
 	@Override

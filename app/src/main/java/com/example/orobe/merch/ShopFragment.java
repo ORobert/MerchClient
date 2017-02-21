@@ -1,10 +1,10 @@
 package com.example.orobe.merch;
 
-import Models.Order;
 import Models.Product;
-import Protocol.GetAllRequest;
 import Protocol.ProtocolException;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,25 +14,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShopFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private List<Product> curentSelectedItems = new ArrayList<>();
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public ShopFragment() {
-    }
+    public ShopFragment() {}
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -47,7 +43,6 @@ public class ShopFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -58,15 +53,12 @@ public class ShopFragment extends Fragment {
         View view = inflater.inflate(R.layout.shop_layout, container, false);
         Button button = (Button) view.findViewById(R.id.Order);
         RecyclerView recyclerView= (RecyclerView) view.findViewById(R.id.shopList);
-        // Set the adapter
         //if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            if (mColumnCount <= 1) {
+            final Context context = view.getContext();
+            if (mColumnCount <= 1)
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
+            else
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-
             try {
                 recyclerView.setAdapter(new ShopAdapter(Client.getAllProducts(),button,getContext(),new ShopAdapter.OnClickListener(){
 
@@ -81,15 +73,35 @@ public class ShopFragment extends Fragment {
                     }
 
                     @Override
-                    public void onOrderClick() {
-                        try {
-                            Client.takeUsersOrders(curentSelectedItems);
-                        } catch (ProtocolException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }));
+                    public void onOrderClick(){
+                            if(curentSelectedItems.size()>0) {
+								AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+								alertDialog.setMessage("Introduce-ti adresa:");
+								final EditText input = new EditText(context);
+								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+								input.setLayoutParams(lp);
+								alertDialog.setView(input);
+								alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int which) {
+										try {
+											Client.takeUsersOrders(input.getText().toString(),curentSelectedItems);
+											Toast.makeText(context, "Comanda efectuata cu succes!", Toast.LENGTH_SHORT).show();
+										} catch (ProtocolException e) {
+											e.printStackTrace();
+										}
+									}
+								});
+								alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int which) {
+												dialog.cancel();
+											}
+								});
+								alertDialog.show();
+							}else{
+								Toast.makeText(context,"Nu ati selectat produse!",Toast.LENGTH_SHORT).show();
+							}
 
+                }}));
             } catch (ProtocolException e) {
                 e.printStackTrace();
             }
@@ -102,8 +114,7 @@ public class ShopFragment extends Fragment {
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener");
         }
     }
 
@@ -113,18 +124,7 @@ public class ShopFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(Product item);
     }
 }

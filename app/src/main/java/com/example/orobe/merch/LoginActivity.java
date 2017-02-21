@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //            WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
 //            String my_ip= String.valueOf(wifiManager.getConnectionInfo().getIpAddress());
 //            System.out.println("Setting up connection with your IP:"+my_ip);
-			Client.setupConnection("192.168.0.11", 55555);
+			Client.setupConnection("192.168.1.49", 55555);
 
 		}catch(IOException e){
         	e.printStackTrace();

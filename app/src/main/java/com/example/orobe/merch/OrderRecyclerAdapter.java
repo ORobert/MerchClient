@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdapter.ViewHolder> {
-
 	private final List<Order> mValues;
 	private final DOrderFragment.OnListFragmentInteractionListener mListener;
 	private final SimpleDateFormat sdt=new SimpleDateFormat("dd.MM.yyyy");

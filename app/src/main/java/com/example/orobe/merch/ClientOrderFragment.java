@@ -1,6 +1,7 @@
 package com.example.orobe.merch;
 
 import Models.Order;
+import Protocol.ProtocolException;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,17 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class DeliveryFragment extends Fragment {
+import java.util.List;
+
+public class ClientOrderFragment extends Fragment {
+
 	private static final String ARG_COLUMN_COUNT = "column-count";
 	private int mColumnCount = 1;
-	public static RecyclerView recyclerView;
 	private OnListFragmentInteractionListener mListener;
 
-	public DeliveryFragment() {}
+	public ClientOrderFragment() {}
 
-	@SuppressWarnings("unused")
-	public static DeliveryFragment newInstance(int columnCount) {
-		DeliveryFragment fragment = new DeliveryFragment();
+	public static ClientOrderFragment newInstance(int columnCount) {
+		ClientOrderFragment fragment = new ClientOrderFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_COLUMN_COUNT, columnCount);
 		fragment.setArguments(args);
@@ -37,16 +39,20 @@ public class DeliveryFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_delivery_list, container, false);
+		View view = inflater.inflate(R.layout.fragment_client_order_list, container, false);
 		if (view instanceof RecyclerView) {
 			Context context = view.getContext();
-			recyclerView = (RecyclerView) view;
+			RecyclerView recyclerView = (RecyclerView) view;
 			if (mColumnCount <= 1) {
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
 			} else {
 				recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
 			}
-			recyclerView.setAdapter(new DeliveryRecyclerAdapter(DriverResources.ordersInTransit, mListener,getContext(),recyclerView));
+			try {
+				recyclerView.setAdapter(new ClientOrderAdapter(Client.getOrdersByOwner(Client.user), mListener,getFragmentManager(), (MainMenuActivity) getActivity()));
+			}catch (ProtocolException e){
+				e.printStackTrace();
+			}
 		}
 		return view;
 	}
@@ -67,6 +73,6 @@ public class DeliveryFragment extends Fragment {
 	}
 
 	public interface OnListFragmentInteractionListener {
-		void onListFragmentInteraction(Order item);
+		void onListFragmentInteraction(Order order);
 	}
 }
